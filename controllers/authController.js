@@ -60,3 +60,11 @@ export const verifyToken = async (req, res) => {
     res.status(401).json({ message: 'Invalid token' });
   }
 }; 
+
+export const signup = async (req, res) => {
+  const { username, email, password , fullName} = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const newUser = new User({ username, email, password: hashedPassword ,fullName});
+  await newUser.save();
+  res.status(201).json({ message: 'User created successfully' });
+};

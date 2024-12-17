@@ -48,9 +48,20 @@ export const createUser = async (req, res) => {
     });
 
     const newUser = await user.save();
-    const { password: _, ...userData } = newUser.toObject();
-    res.status(201).json(userData);
+    res.status(201).json({
+      success: true,
+      user: {
+        _id: newUser._id,
+        username: newUser.username,
+        email: newUser.email,
+        fullName: newUser.fullName,
+        address: newUser.address,
+        phoneNumber: newUser.phoneNumber,
+        isAdmin: newUser.isAdmin
+      }
+    });
   } catch (error) {
+    console.error('Create user error:', error); 
     res.status(400).json({ message: error.message });
   }
 };

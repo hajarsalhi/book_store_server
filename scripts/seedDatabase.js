@@ -243,7 +243,7 @@ const seedDatabase = async () => {
     }
 
     // Create admin user
-    const hashedPassword = await bcrypt.hash('admin123', 10);
+    const hashedPassword = await bcrypt.hash('Admin99@dmin', 10);
     const adminUser = new User({
       username: 'admin',
       email: 'admin@example.com',

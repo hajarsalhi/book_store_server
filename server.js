@@ -1,37 +1,32 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import bookRoutes from './routes/bookRoutes.js';
 import authRoutes from './routes/authRoutes.js';
-//import userRoutes from './routes/userRoutes.js';
-//import orderRoutes from './routes/orderRoutes.js';
-import { errorHandler } from './middleware/errorhandler.js';
+import commandRoutes from './routes/commandRoutes.js';
 
-
-
-
-// Load environment variables
-import dotenv from 'dotenv';
 dotenv.config();
-
-// Connect to database
-connectDB();
 
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(errorHandler);
+
+// Connect to MongoDB
+connectDB();
 
 // Routes
 app.use('/api/books', bookRoutes);
 app.use('/api/auth', authRoutes);
-//app.use('/api/users', userRoutes);
-//app.use('/api/orders', orderRoutes);
+app.use('/api/commands', commandRoutes);
 
-// Error Handler
-//app.use(errorHandler);
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something went wrong!' });
+});
 
 const PORT = process.env.PORT || 5000;
 

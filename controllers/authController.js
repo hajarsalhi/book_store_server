@@ -2,42 +2,46 @@ import User from '../models/user.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
+const generateToken = (user) => {
+  return jwt.sign(
+    { 
+      id: user._id,
+      email: user.email
+    }, 
+    process.env.JWT_SECRET,
+    { expiresIn: '24h' }
+  );
+};
+
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Check if user exists
     const user = await User.findOne({ email });
+    
     if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Check password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid email or password' });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Generate JWT token
-    const token = jwt.sign(
-      { 
-        id: user._id,
-        email: user.email,
-        role: user.role
-      },
-      process.env.JWT_SECRET,
-      { expiresIn: '24h' }
-    );
-
-    // Remove password from user object
-    const { password: _, ...userData } = user.toObject();
-
+    const token = generateToken(user);
+    
+    console.log('Generated token for user:', user._id);
+    
     res.json({
       token,
-      user: userData
+      user: {
+        id: user._id,
+        email: user.email,
+        username: user.username,
+        isAdmin: user.isAdmin
+      }
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ message: 'Error logging in' });
   }
 };
 

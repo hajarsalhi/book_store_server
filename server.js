@@ -5,6 +5,8 @@ import connectDB from './config/db.js';
 import bookRoutes from './routes/bookRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import commandRoutes from './routes/commandRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
+import { errorHandler } from './middleware/errorHandler.js';
 
 dotenv.config();
 
@@ -17,16 +19,24 @@ app.use(express.json());
 // Connect to MongoDB
 connectDB();
 
+// Debug log for routes
+console.log('Registering routes...');
+
 // Routes
 app.use('/api/books', bookRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/commands', commandRoutes);
+app.use('/api/admin', adminRoutes);
+
+// Add a test endpoint
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'API is working' });
+});
+
+console.log('Routes registered');
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong!' });
-});
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 

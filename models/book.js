@@ -1,5 +1,28 @@
 import mongoose from 'mongoose';
 
+const reviewSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  userName: String,
+  rating: {
+    type: Number,
+    required: true,
+    min: 1,
+    max: 5
+  },
+  comment: {
+    type: String,
+    maxLength: 500
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
 const bookSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -74,6 +97,17 @@ const bookSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now
+  },
+  reviews: [reviewSchema],
+  averageRating: {
+    type: Number,
+    default: 0,
+    min: 0,
+    max: 5
+  },
+  totalRatings: {
+    type: Number,
+    default: 0
   }
 });
 
@@ -82,6 +116,18 @@ bookSchema.pre('save', function(next) {
   this.updatedAt = new Date();
   next();
 });
+
+// Add method to update average rating
+bookSchema.methods.updateAverageRating = function() {
+  if (this.reviews.length === 0) {
+    this.averageRating = 0;
+    this.totalRatings = 0;
+  } else {
+    const sum = this.reviews.reduce((acc, review) => acc + review.rating, 0);
+    this.averageRating = Math.round((sum / this.reviews.length) * 10) / 10;
+    this.totalRatings = this.reviews.length;
+  }
+};
 
 const Book = mongoose.model('Book', bookSchema);
 

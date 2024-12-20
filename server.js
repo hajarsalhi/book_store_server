@@ -6,7 +6,7 @@ import bookRoutes from './routes/bookRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import commandRoutes from './routes/commandRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
-import { errorHandler } from './middleware/errorHandler.js';
+import { errorHandler } from './middleware/errorhandler.js';
 
 dotenv.config();
 

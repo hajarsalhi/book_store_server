@@ -26,14 +26,19 @@ router.get('/:id/reviews', async (req, res) => {
     const book = await Book.findById(req.params.id)
       .populate({
         path: 'reviews.user',
-        select: 'name'
+        select: 'name username _id'
       });
     
     if (!book) {
       return res.status(404).json({ message: 'Book not found' });
     }
     
-    res.json(book.reviews);
+    const reviews = book.reviews.map(review => ({
+      ...review.toObject(),
+      user: review.user._id
+    }));
+    
+    res.json(reviews);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching reviews' });
   }
@@ -64,7 +69,7 @@ router.post('/purchase/:id', auth, async (req, res) => {
   }
 });
 
-router.post('/:id/reviews', auth, async (req, res) => {
+router.post('/:id/reviews', async (req, res) => {
   try {
     const { rating, comment } = req.body;
     const book = await Book.findById(req.params.id);
@@ -73,89 +78,86 @@ router.post('/:id/reviews', auth, async (req, res) => {
       return res.status(404).json({ message: 'Book not found' });
     }
 
-    // Check if user has already reviewed
-    const existingReview = book.reviews.find(
-      review => review.user.toString() === req.user._id.toString()
-    );
-
-    if (existingReview) {
-      return res.status(400).json({ message: 'You have already reviewed this book' });
-    }
-
-    // Add new review
-    book.reviews.push({
+    const review = {
       user: req.user._id,
-      userName: req.user.name,
+      userName: req.user.username || req.user.name,
       rating,
-      comment
-    });
+      comment,
+      createdAt: new Date()
+    };
 
-    // Update average rating
+    book.reviews.push(review);
     book.updateAverageRating();
     await book.save();
 
-    res.status(201).json(book);
+    res.status(201).json({
+      ...review,
+      _id: book.reviews[book.reviews.length - 1]._id
+    });
   } catch (error) {
+    console.error('Error adding review:', error);
     res.status(500).json({ message: 'Error adding review' });
   }
 });
 
-router.put('/:bookId/reviews/:reviewId', auth, async (req, res) => {
+router.put('/:bookId/reviews/:reviewId', async (req, res) => {
   try {
-    const { rating, comment } = req.body;
     const book = await Book.findById(req.params.bookId);
-    
     if (!book) {
       return res.status(404).json({ message: 'Book not found' });
     }
 
     const review = book.reviews.id(req.params.reviewId);
-    
     if (!review) {
       return res.status(404).json({ message: 'Review not found' });
     }
 
-    if (review.user.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: 'Not authorized to update this review' });
+    if (review.user.toString() === req.user._id.toString()) {
+      review.rating = req.body.rating;
+      review.comment = req.body.comment;
+      book.updateAverageRating();
+      await book.save();
+
+      res.json(review);
+    } else {
+      return res.status(403).json({ message: 'Not authorized' });
     }
-
-    review.rating = rating;
-    review.comment = comment;
-    review.updatedAt = Date.now();
-
-    book.updateAverageRating();
-    await book.save();
-
-    res.json(book);
   } catch (error) {
+    console.error('Error updating review:', error);
     res.status(500).json({ message: 'Error updating review' });
   }
 });
 
-router.delete('/:bookId/reviews/:reviewId', auth, async (req, res) => {
+router.use(auth);
+
+router.delete('/:bookId/reviews/:reviewId', async (req, res) => {
   try {
     const book = await Book.findById(req.params.bookId);
-    
     if (!book) {
       return res.status(404).json({ message: 'Book not found' });
     }
 
     const review = book.reviews.id(req.params.reviewId);
-    
     if (!review) {
       return res.status(404).json({ message: 'Review not found' });
     }
 
-    if (review.user.toString() !== req.user._id.toString()) {
+    // Convert IDs to strings for comparison
+    const reviewUserId = review.user.toString();
+    const currentUserId = req.user._id.toString();
+
+    if (reviewUserId !== currentUserId) {
       return res.status(403).json({ message: 'Not authorized to delete this review' });
     }
 
-    review.remove();
+    // Use pull to remove the subdocument
+    book.reviews.pull({ _id: req.params.reviewId });
     book.updateAverageRating();
     await book.save();
 
     res.json({ message: 'Review deleted successfully' });
   } catch (error) {
+    console.error('Error deleting review:', error);
     res.status(500).json({ message: 'Error deleting review' });
   }
 });

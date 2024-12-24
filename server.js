@@ -7,6 +7,7 @@ import authRoutes from './routes/authRoutes.js';
 import commandRoutes from './routes/commandRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import { errorHandler } from './middleware/errorhandler.js';
+import couponRoutes from './routes/couponRoutes.js';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use('/api/books', bookRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/commands', commandRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/coupons', couponRoutes);
 
 // Add a test endpoint
 app.get('/api/test', (req, res) => {

@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import Book from '../models/book.js';
 import User from '../models/user.js';
-
+import Coupon from '../models/Coupon.js';
 dotenv.config();
 
 // Sample data
@@ -206,6 +206,32 @@ const users = [
   }
 ];
 
+
+    // Sample coupons
+    const coupons = [
+      {
+        code: 'SAVE10',
+        discount: 10, // 10% off
+        expirationDate: new Date('2023-12-31'),
+      },
+      {
+        code: 'SAVE20',
+        discount: 20, // 20% off
+        expirationDate: new Date('2023-11-30'),
+      },
+      {
+        code: 'FREESHIP',
+        discount: 0, // Free shipping (could be treated as a fixed discount)
+        expirationDate: new Date('2023-10-15'),
+      },
+      {
+        code: 'WELCOME15',
+        discount: 15, // 15% off for new users
+        expirationDate: new Date('2024-01-01'),
+      },
+    ];
+
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/bookstore')
   .then(() => console.log('MongoDB connected for seeding...'))
@@ -217,6 +243,7 @@ const seedDatabase = async () => {
     // Clear existing data
     await Book.deleteMany({});
     await User.deleteMany({});
+    await Coupon.deleteMany({});
     console.log('Cleared existing data');
 
     // Insert books
@@ -254,8 +281,10 @@ const seedDatabase = async () => {
       isAdmin: true
     });
 
-await adminUser.save();
+    await adminUser.save();
     console.log('Admin user created successfully');
+    await Coupon.insertMany(coupons);
+    console.log('Coupons seeded successfully!');
 
     console.log('Database seeded successfully!');
     process.exit(0);

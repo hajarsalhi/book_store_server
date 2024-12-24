@@ -108,7 +108,8 @@ const bookSchema = new mongoose.Schema({
   totalRatings: {
     type: Number,
     default: 0
-  }
+  },
+  priceHistory: [{ price: Number, date: { type: Date, default: Date.now } }]
 });
 
 // Update the updatedAt timestamp before saving

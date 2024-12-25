@@ -27,7 +27,15 @@ const userSchema = new mongoose.Schema({
   isActive: {
     type: Boolean,
     default: true
-  }
+  },
+  totalPurchases: {
+    type: Number,
+    default: 0,
+  },
+  totalSpent: {
+    type: Number,
+    default: 0,
+  },
 }, {
   timestamps: true
 });

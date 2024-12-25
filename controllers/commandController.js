@@ -1,19 +1,19 @@
 import mongoose from 'mongoose';
 import Command from '../models/command.js';
 import Book from '../models/book.js';
+import User from '../models/user.js';
 
 export const createCommand = async (req, res) => {
-  try {
-    const { items } = req.body;
-    
-    console.log('Received items:', items);
-    console.log('User ID:', req.user._id);
-    
-    if (!items || !Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({ message: 'Invalid order items' });
-    }
+  const { items } = req.body.items;
+  const userId = req.user.id;
 
-    let totalAmount = 0;
+  if (!items || !Array.isArray(items) || items.length === 0) {
+    return res.status(400).json({ message: 'Invalid order items' });
+  }
+  
+  try {
+
+    let totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
     const orderItems = [];
 
     // First, validate all items and check stock
@@ -41,8 +41,6 @@ export const createCommand = async (req, res) => {
         quantity: item.quantity,
         price: book.price
       });
-
-      totalAmount += book.price * item.quantity;
     }
 
     console.log('Order items prepared:', orderItems);
@@ -50,14 +48,22 @@ export const createCommand = async (req, res) => {
 
     // Create and save the command first
     const command = new Command({
-      user: req.user._id,
+      user: userId,
       items: orderItems,
       totalAmount,
       status: 'completed'
     });
 
     await command.save();
-    console.log('Command saved');
+    console.log('Command saved successfully');
+
+    // Update user total purchases and total spent
+    await User.findByIdAndUpdate(userId, {
+      $inc: {
+        totalPurchases: 1,
+        totalSpent: totalAmount,
+      },
+    });
 
     // Update stock for each book
     for (const item of items) {
@@ -72,14 +78,14 @@ export const createCommand = async (req, res) => {
     // Populate book details for response
     await command.populate('items.book');
 
+    // Send the response only once
     res.status(201).json({
       message: 'Order created successfully',
       command
     });
-
   } catch (error) {
-    console.error('Error creating order:', error);
-    res.status(500).json({ message: 'Error processing order' });
+    console.error('Error creating command:', error);
+    res.status(500).json({ message: 'Error processing order', error: error.message });
   }
 };
 

@@ -8,7 +8,8 @@ import {
   updateBook,
   deleteBook,
   searchBooks,
-  getCategories
+  getCategories,
+  getTopRatedBooks
 } from '../controllers/bookController.js';
 
 const router = express.Router();
@@ -17,6 +18,7 @@ router.get('/search', searchBooks);
 router.get('/categories', getCategories);
 router.get('/', getBooks);
 router.post('/', createBook);
+router.get('/', getTopRatedBooks);
 router.get('/:id', getBook);
 router.put('/:id', updateBook);
 router.delete('/:id', deleteBook);
@@ -161,6 +163,7 @@ router.delete('/:bookId/reviews/:reviewId', async (req, res) => {
     res.status(500).json({ message: 'Error deleting review' });
   }
 });
+
 
 export default router;
 

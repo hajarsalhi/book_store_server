@@ -180,3 +180,18 @@ export const getCategories = async (req, res) => {
     res.status(500).json({ message: 'Error fetching categories' });
   }
 };
+
+// Fetch books sorted by rating
+export const getTopRatedBooks = async (req, res) => {
+  try {
+    console.log('Fetching top-rated books');
+    const books = await Book.find({ averageRating: { $gte: 4 } })
+      .sort({ averageRating: -1 })
+      .limit(3);
+    console.log('Top-rated books fetched:', books);
+    res.status(200).json(books);
+  } catch (error) {
+    console.error('Error fetching top-rated books:', error);
+    res.status(500).json({ message: 'Error fetching top-rated books from the database', error: error.message });
+  }
+};

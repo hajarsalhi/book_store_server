@@ -9,7 +9,8 @@ import {
   deleteBook,
   searchBooks,
   getCategories,
-  getTopRatedBooks
+  getTopRatedBooks,
+  getBestSellers
 } from '../controllers/bookController.js';
 
 const router = express.Router();
@@ -19,6 +20,7 @@ router.get('/categories', getCategories);
 router.get('/', getBooks);
 router.post('/', createBook);
 router.get('/', getTopRatedBooks);
+router.get('/', getBestSellers);
 router.get('/:id', getBook);
 router.put('/:id', updateBook);
 router.delete('/:id', deleteBook);

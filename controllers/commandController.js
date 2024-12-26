@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import Command from '../models/command.js';
 import Book from '../models/book.js';
 import User from '../models/user.js';
-import { getRelatedBooksWithAuthor, getRelatedBooksWithCategory } from './bookController.js';
+import { getRelatedBooksWithAuthor, getRelatedBooksWithCategory , getBestSellers} from './bookController.js';
 
 export const createCommand = async (req, res) => {
   const { items } = req.body.items;
@@ -66,6 +66,16 @@ export const createCommand = async (req, res) => {
       },
     });
 
+    // Update sales count for each book
+    for (const item of items) {
+      await Book.findByIdAndUpdate(
+        item.bookId,
+        { $inc: { salesCount: 1 } },
+        { new: true }
+      );
+    }
+    
+
     // Update stock for each book
     for (const item of items) {
       await Book.findByIdAndUpdate(
@@ -76,11 +86,14 @@ export const createCommand = async (req, res) => {
     }
     console.log('Books stock updated');
 
+
+
     // Populate book details for response
     await command.populate('items.book');
 
     let relatedBooksWithAuthor = [];
     let relatedBooksWithCategory = [];
+    let bestSellers = [];
     // Get related books
     for(const item of command.items) {
       relatedBooksWithAuthor = await getRelatedBooksWithAuthor(item.book._id);
@@ -88,12 +101,14 @@ export const createCommand = async (req, res) => {
       relatedBooksWithAuthor.push(...relatedBooksWithAuthor);
       relatedBooksWithCategory.push(...relatedBooksWithCategory);
     }
+    bestSellers = await getBestSellers();
     // Send the response only once
     res.status(201).json({
       message: 'Order created successfully',
       command,
       relatedBooksWithAuthor,
-      relatedBooksWithCategory
+      relatedBooksWithCategory,
+      bestSellers
     });
   } catch (error) {
     console.error('Error creating command:', error);

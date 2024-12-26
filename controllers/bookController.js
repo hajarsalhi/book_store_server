@@ -242,3 +242,15 @@ export const getRelatedBooksWithCategory = async (bookId) => {
     return [];
   }
 };
+
+export const getBestSellers = async () => {
+  try {
+    const books = await Book.find({})
+      .sort({ salesCount: { $gte: 1 } })
+      .limit(4);
+    return books;
+  } catch (error) {
+    console.error('Error fetching best sellers:', error);
+    return [];
+  }
+};

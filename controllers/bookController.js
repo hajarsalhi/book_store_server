@@ -195,3 +195,50 @@ export const getTopRatedBooks = async (req, res) => {
     res.status(500).json({ message: 'Error fetching top-rated books from the database', error: error.message });
   }
 };
+
+export const getRelatedBooksWithAuthor = async (bookId) => {
+  try {
+    const book = await Book.findById(bookId);
+    if (!book) {
+      console.log('Book not found');
+      return [];
+    }
+    const relatedBooks = await Book.find({
+      $and: [
+        { author: book.author },
+        { title: { $ne: book.title } }
+      ]
+    }).limit(3);
+    const uniqueRelatedBooks = Array.from(new Set(relatedBooks.map(b => b._id)))
+      .map(id => relatedBooks.find(b => b._id === id));
+    return uniqueRelatedBooks;
+  } catch (error) {
+    console.error('Error fetching related books:', error);
+    return [];
+  }
+};
+
+export const getRelatedBooksWithCategory = async (bookId) => {
+  try {
+    const book = await Book.findById(bookId);
+    if (!book) {
+      console.log('Book not found');
+      return [];
+    }
+    const relatedBooks = await Book.find({
+      $and: [
+        { category: book.category },
+        { title: { $ne: book.title } }
+      ]
+    }).limit(3);
+
+    const uniqueRelatedBooks = Array.from(new Set(relatedBooks.map(b => b._id)))
+      .map(id => relatedBooks.find(b => b._id === id));
+
+
+    return uniqueRelatedBooks;
+  } catch (error) {
+    console.error('Error fetching related books:', error);
+    return [];
+  }
+};

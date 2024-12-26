@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import Command from '../models/command.js';
 import Book from '../models/book.js';
 import User from '../models/user.js';
+import { getRelatedBooksWithAuthor, getRelatedBooksWithCategory } from './bookController.js';
 
 export const createCommand = async (req, res) => {
   const { items } = req.body.items;
@@ -78,10 +79,21 @@ export const createCommand = async (req, res) => {
     // Populate book details for response
     await command.populate('items.book');
 
+    let relatedBooksWithAuthor = [];
+    let relatedBooksWithCategory = [];
+    // Get related books
+    for(const item of command.items) {
+      relatedBooksWithAuthor = await getRelatedBooksWithAuthor(item.book._id);
+      relatedBooksWithCategory = await getRelatedBooksWithCategory(item.book._id);
+      relatedBooksWithAuthor.push(...relatedBooksWithAuthor);
+      relatedBooksWithCategory.push(...relatedBooksWithCategory);
+    }
     // Send the response only once
     res.status(201).json({
       message: 'Order created successfully',
-      command
+      command,
+      relatedBooksWithAuthor,
+      relatedBooksWithCategory
     });
   } catch (error) {
     console.error('Error creating command:', error);

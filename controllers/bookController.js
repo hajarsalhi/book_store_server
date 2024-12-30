@@ -254,3 +254,14 @@ export const getBestSellers = async () => {
     return [];
   }
 };
+
+export const getNewReleases = async (req, res) => {
+  try {
+    const newReleases = await Book.find({})
+      .sort({ createdAt: -1 }) // Assuming you have a createdAt field
+      .limit(4); // Limit to 4 most recent books
+    res.status(200).json(newReleases);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

@@ -1,5 +1,5 @@
 import Command from '../models/command.js';
-import Book from '../models/book.js';
+
 
 export const getSalesAnalytics = async (req, res) => {
   console.log('getSalesAnalytics called with timeRange:', req.query.timeRange);
@@ -26,7 +26,7 @@ export const getSalesAnalytics = async (req, res) => {
       status: 'completed'
     }).populate('items.book');
 
-    console.log('Found orders:', orders.length);
+    console.log('Found orders:', orders);
 
     // If no orders found, return empty data
     if (!orders || orders.length === 0) {
@@ -61,8 +61,10 @@ export const getSalesAnalytics = async (req, res) => {
 
     // Calculate top selling books
     const bookSales = {};
+    
     orders.forEach(order => {
-      order.items.forEach(item => {
+      order.items.filter(item=>!item.$isEmpty).forEach(item => {
+      
         if (!bookSales[item.book._id]) {
           bookSales[item.book._id] = {
             _id: item.book._id,
@@ -70,6 +72,7 @@ export const getSalesAnalytics = async (req, res) => {
             salesCount: 0
           };
         }
+        
         bookSales[item.book._id].salesCount += item.quantity;
       });
     });
@@ -78,10 +81,11 @@ export const getSalesAnalytics = async (req, res) => {
       .sort((a, b) => b.salesCount - a.salesCount)
       .slice(0, 5);
 
+
     // Calculate sales by category
     const categorySales = {};
     orders.forEach(order => {
-      order.items.forEach(item => {
+      order.items.filter(item=>!item.$isEmpty).forEach(item => {
         const category = item.book.category || 'Uncategorized';
         if (!categorySales[category]) {
           categorySales[category] = { name: category, revenue: 0 };

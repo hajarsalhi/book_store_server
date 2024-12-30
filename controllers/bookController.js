@@ -245,9 +245,9 @@ export const getRelatedBooksWithCategory = async (bookId) => {
 
 export const getBestSellers = async () => {
   try {
-    const books = await Book.find({})
-      .sort({ salesCount: { $gte: 1 } })
-      .limit(4);
+    const books = await Book.find({ salesCount: { $gt: 0 } })
+      .sort({ salesCount: -1 })
+      .limit(5);
     return books;
   } catch (error) {
     console.error('Error fetching best sellers:', error);

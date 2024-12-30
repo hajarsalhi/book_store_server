@@ -59,6 +59,7 @@ const bookSchema = new mongoose.Schema({
     enum: [
       'Fiction',
       'Non-Fiction',
+      'Classic',
       'Science Fiction',
       'Contemporary Fiction',
       'Historical Fiction',

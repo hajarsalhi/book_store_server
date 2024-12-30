@@ -15,7 +15,8 @@ const books = [
     price: 15.99,
     imageUrl: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=500&h=750",
     stock: 50,
-    category: "Fiction"
+    category: "Fiction",
+    salesCount:0
   },
   {
     title: "To Kill a Mockingbird",
@@ -24,7 +25,8 @@ const books = [
     price: 14.99,
     imageUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=500&h=750",
     stock: 45,
-    category: "Fiction"
+    category: "Fiction",
+    salesCount:0
   },
   {
     title: "1984",
@@ -33,7 +35,8 @@ const books = [
     price: 12.99,
     imageUrl: "https://images.unsplash.com/photo-1541963463532-d68292c34b19?auto=format&fit=crop&w=500&h=750",
     stock: 40,
-    category: "Science Fiction"
+    category: "Science Fiction",
+    salesCount:0
   },
   {
     title: "Pride and Prejudice",
@@ -42,7 +45,8 @@ const books = [
     price: 11.99,
     imageUrl: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=500&h=750",
     stock: 35,
-    category: "Romance"
+    category: "Romance",
+    salesCount:0
   },
   {
     title: "The Hobbit",
@@ -51,7 +55,8 @@ const books = [
     price: 16.99,
     imageUrl: "https://images.unsplash.com/photo-1621351183012-e2f9972dd9bf?auto=format&fit=crop&w=500&h=750",
     stock: 55,
-    category: "Fantasy"
+    category: "Fantasy",
+    salesCount:0
   },
   {
     title: "The Catcher in the Rye",
@@ -60,7 +65,8 @@ const books = [
     price: 13.99,
     imageUrl: "https://images.unsplash.com/photo-1589998059171-988d887df646?auto=format&fit=crop&w=500&h=750",
     stock: 30,
-    category: "Fiction"
+    category: "Fiction",
+    salesCount:0
   },
   {
     title: "The Lord of the Rings",
@@ -69,7 +75,8 @@ const books = [
     price: 29.99,
     imageUrl: "https://images.unsplash.com/photo-1479894720049-a57d9a555e2c?auto=format&fit=crop&w=500&h=750",
     stock: 25,
-    category: "Fantasy"
+    category: "Fantasy",
+    salesCount:0
   },
   {
     title: "Brave New World",
@@ -78,7 +85,8 @@ const books = [
     price: 12.99,
     imageUrl: "https://images.unsplash.com/photo-1592496431122-2349e0fbc666?auto=format&fit=crop&w=500&h=750",
     stock: 38,
-    category: "Science Fiction"
+    category: "Science Fiction",
+    salesCount:0
   },
   {
     title: "Dune",
@@ -87,7 +95,8 @@ const books = [
     price: 19.99,
     imageUrl: "https://images.unsplash.com/photo-1603162525937-76c50fb53674?auto=format&fit=crop&w=500&h=750",
     stock: 42,
-    category: "Science Fiction"
+    category: "Science Fiction",
+    salesCount:0
   },
   {
     title: "The Alchemist",
@@ -96,7 +105,8 @@ const books = [
     price: 13.99,
     imageUrl: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=500&h=750",
     stock: 60,
-    category: "Philosophy"
+    category: "Philosophy",
+    salesCount:0
   },
   {
     title: "The Silent Patient",
@@ -105,7 +115,8 @@ const books = [
     price: 16.99,
     imageUrl: "https://images.unsplash.com/photo-1587876931567-564ce588bfbd?auto=format&fit=crop&w=500&h=750",
     stock: 35,
-    category: "Thriller"
+    category: "Thriller",
+    salesCount:0
   },
   {
     title: "The Name of the Wind",
@@ -114,7 +125,8 @@ const books = [
     price: 18.99,
     imageUrl: "https://images.unsplash.com/photo-1528459105426-b9548367069b?auto=format&fit=crop&w=500&h=750",
     stock: 28,
-    category: "Fantasy"
+    category: "Fantasy",
+    salesCount:0
   },
   {
     title: "The Road",
@@ -123,7 +135,8 @@ const books = [
     price: 15.99,
     imageUrl: "https://images.unsplash.com/photo-1598618589929-b1433d05cdf5?auto=format&fit=crop&w=500&h=750",
     stock: 25,
-    category: "Post-Apocalyptic"
+    category: "Post-Apocalyptic",
+    salesCount:0
   },
   {
     title: "The Handmaid's Tale",
@@ -132,7 +145,8 @@ const books = [
     price: 14.99,
     imageUrl: "https://images.unsplash.com/photo-1585437642374-53a1977f5604?auto=format&fit=crop&w=500&h=750",
     stock: 40,
-    category: "Dystopian"
+    category: "Dystopian",
+    salesCount:0
   },
   {
     title: "The Midnight Library",
@@ -141,7 +155,8 @@ const books = [
     price: 17.99,
     imageUrl: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=500&h=750",
     stock: 45,
-    category: "Contemporary Fiction"
+    category: "Contemporary Fiction",
+    salesCount:0
   },
   {
     title: "Project Hail Mary",
@@ -150,7 +165,8 @@ const books = [
     price: 20.99,
     imageUrl: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?auto=format&fit=crop&w=500&h=750",
     stock: 32,
-    category: "Science Fiction"
+    category: "Science Fiction",
+    salesCount:0
   },
   {
     title: "The Seven Husbands of Evelyn Hugo",
@@ -159,7 +175,8 @@ const books = [
     price: 16.99,
     imageUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=500&h=750",
     stock: 38,
-    category: "Historical Fiction"
+    category: "Historical Fiction",
+    salesCount:0
   },
   {
     title: "Atomic Habits",
@@ -168,7 +185,8 @@ const books = [
     price: 21.99,
     imageUrl: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=500&h=750",
     stock: 50,
-    category: "Self-Help"
+    category: "Self-Help",
+    salesCount:0
   },
   {
     title: "The Power of Now",
@@ -177,7 +195,8 @@ const books = [
     price: 12.99,
     imageUrl: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&w=500&h=750",
     stock: 50,
-    category: "Self-Help"
+    category: "Self-Help",
+    salesCount:0
   },
   {
     title: 'Harry Potter and the Sorcerer\'s Stone',
@@ -187,6 +206,7 @@ const books = [
     price: 19.99,
     imageUrl: 'https://example.com/hp1.jpg',
     stock: 100,
+    salesCount:0
   },
   {
     title: 'Harry Potter and the Chamber of Secrets',
@@ -196,6 +216,7 @@ const books = [
     price: 19.99,
     imageUrl: 'https://example.com/hp2.jpg',
     stock: 100,
+    salesCount:0
   },
   {
     title: 'Harry Potter and the Prisoner of Azkaban',
@@ -205,6 +226,7 @@ const books = [
     price: 19.99,
     imageUrl: 'https://example.com/hp3.jpg',
     stock: 100,
+    salesCount:0
   },
   {
     title: 'Harry Potter and the Goblet of Fire',
@@ -214,6 +236,7 @@ const books = [
     price: 19.99,
     imageUrl: 'https://example.com/hp4.jpg',
     stock: 100,
+    salesCount:0
   },
   {
     title: 'A Game of Thrones',
@@ -223,6 +246,7 @@ const books = [
     price: 24.99,
     imageUrl: 'https://example.com/got1.jpg',
     stock: 50,
+    salesCount:0
   },
   {
     title: 'A Clash of Kings',
@@ -232,6 +256,7 @@ const books = [
     price: 24.99,
     imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=500&h=750',
     stock: 50,
+    salesCount:0
   },
   {
     title: 'A Storm of Swords',
@@ -241,6 +266,7 @@ const books = [
     price: 24.99,
     imageUrl: 'https://example.com/got3.jpg',
     stock: 50,
+    salesCount:0
   },
   {
     title: 'A Feast for Crows',
@@ -250,6 +276,7 @@ const books = [
     price: 24.99,
     imageUrl: 'https://example.com/got4.jpg',
     stock: 50,
+    salesCount:0
   },
   {
     title: 'Murder on the Orient Express',
@@ -259,6 +286,7 @@ const books = [
     price: 14.99,
     imageUrl: 'https://example.com/agatha1.jpg',
     stock: 75,
+    salesCount:0
   },
   {
     title: 'And Then There Were None',
@@ -268,6 +296,7 @@ const books = [
     price: 14.99,
     imageUrl: 'https://example.com/agatha2.jpg',
     stock: 75,
+    salesCount:0
   },
   {
     title: 'The Murder of Roger Ackroyd',
@@ -277,6 +306,7 @@ const books = [
     price: 14.99,
     imageUrl: 'https://example.com/agatha3.jpg',
     stock: 75,
+    salesCount:0
   },
   {
     title: 'Death on the Nile',
@@ -286,6 +316,7 @@ const books = [
     price: 14.99,
     imageUrl: 'https://example.com/agatha4.jpg',
     stock: 75,
+    salesCount:0
   },
   {
     title: 'Sense and Sensibility',
@@ -295,6 +326,7 @@ const books = [
     price: 12.99,
     imageUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=500&h=750',
     stock: 80,
+    salesCount:0
   },
   {
     title: 'Emma',
@@ -304,6 +336,7 @@ const books = [
     price: 12.99,
     imageUrl: 'https://example.com/austen3.jpg',
     stock: 80,
+    salesCount:0
   },
   {
     title: 'Mansfield Park',
@@ -313,6 +346,7 @@ const books = [
     price: 12.99,
     imageUrl: 'https://example.com/austen4.jpg',
     stock: 80,
+    salesCount:0
   },
   {
     title: 'Tender Is the Night',
@@ -322,6 +356,7 @@ const books = [
     price: 15.99,
     imageUrl: 'https://example.com/fitzgerald2.jpg',
     stock: 60,
+    salesCount:0
   },
   {
     title: 'This Side of Paradise',
@@ -331,6 +366,7 @@ const books = [
     price: 15.99,
     imageUrl: 'https://example.com/fitzgerald3.jpg',
     stock: 60,
+    salesCount:0
   },
   {
     title: 'The Beautiful and Damned',
@@ -340,6 +376,7 @@ const books = [
     price: 15.99,
     imageUrl: 'https://example.com/fitzgerald4.jpg',
     stock: 60,
+    salesCount:0
   },
   {
     title: 'The Adventures of Tom Sawyer',
@@ -349,6 +386,7 @@ const books = [
     price: 10.99,
     imageUrl: 'https://example.com/twain1.jpg',
     stock: 90,
+    salesCount:0
   },
   {
     title: 'Adventures of Huckleberry Finn',
@@ -358,6 +396,7 @@ const books = [
     price: 10.99,
     imageUrl: 'https://example.com/twain2.jpg',
     stock: 90,
+    salesCount:0
   },
   {
     title: 'The Prince and the Pauper',
@@ -367,6 +406,7 @@ const books = [
     price: 10.99,
     imageUrl: 'https://example.com/twain3.jpg',
     stock: 90,
+    salesCount:0
   },
   {
     title: 'A Connecticut Yankee in King Arthur\'s Court',
@@ -376,6 +416,7 @@ const books = [
     price: 10.99,
     imageUrl: 'https://example.com/twain4.jpg',
     stock: 90,
+    salesCount:0
   },
   {
     title: 'The Shining',
@@ -385,6 +426,7 @@ const books = [
     price: 18.99,
     imageUrl: 'https://example.com/king1.jpg',
     stock: 40,
+    salesCount:0
   },
 
   {
@@ -395,6 +437,7 @@ const books = [
     price: 18.99,
     imageUrl: 'https://example.com/king2.jpg',
     stock: 40,
+    salesCount:0
   },
   {
     title: 'Misery',
@@ -404,6 +447,7 @@ const books = [
     price: 18.99,
     imageUrl: 'https://example.com/king3.jpg',
     stock: 40,
+    salesCount:0
   },
   {
     title: 'Carrie',
@@ -413,6 +457,7 @@ const books = [
     price: 18.99,
     imageUrl: 'https://example.com/king4.jpg',
     stock: 40,
+    salesCount:0
   },
   {
     title: 'To Kill a Mockingbird',
@@ -422,6 +467,7 @@ const books = [
     price: 12.99,
     imageUrl: 'https://example.com/lee1.jpg',
     stock: 70,
+    salesCount:0
   },
   {
     title: 'Go Set a Watchman',
@@ -431,6 +477,7 @@ const books = [
     price: 12.99,
     imageUrl: 'https://example.com/lee2.jpg',
     stock: 70,
+    salesCount:0
   },
   {
     title: 'The Hobbit',
@@ -440,6 +487,7 @@ const books = [
     price: 15.99,
     imageUrl: 'https://example.com/tolkien1.jpg',
     stock: 50,
+    salesCount:0
   },
   {
     title: 'The Lord of the Rings: The Fellowship of the Ring',
@@ -449,6 +497,7 @@ const books = [
     price: 15.99,
     imageUrl: 'https://example.com/tolkien2.jpg',
     stock: 50,
+    salesCount:0
   },
   {
     title: 'The Lord of the Rings: The Two Towers',
@@ -458,6 +507,7 @@ const books = [
     price: 15.99,
     imageUrl: 'https://example.com/tolkien3.jpg',
     stock: 50,
+    salesCount:0
   },
   {
     title: 'The Lord of the Rings: The Return of the King',
@@ -467,6 +517,7 @@ const books = [
     price: 15.99,
     imageUrl: 'https://example.com/tolkien4.jpg',
     stock: 50,
+    salesCount:0
   },
   {
     title: 'The Lion, the Witch and the Wardrobe',
@@ -476,6 +527,7 @@ const books = [
     price: 10.99,
     imageUrl: 'https://example.com/lewis1.jpg',
     stock: 80,
+    salesCount:0
   },
   {
     title: 'Prince Caspian',
@@ -485,6 +537,7 @@ const books = [
     price: 10.99,
     imageUrl: 'https://example.com/lewis2.jpg',
     stock: 80,
+    salesCount:0
   },
   {
     title: 'The Voyage of the Dawn Treader',
@@ -494,16 +547,19 @@ const books = [
     price: 10.99,
     imageUrl: 'https://example.com/lewis3.jpg',
     stock: 80,
+    salesCount:0
+    
   },
   {
-        title: 'The Silver Chair',
-        author: 'C.S. Lewis',
-        category: 'Fantasy',
-        description: 'Eustace and Jill embark on a quest to rescue Prince Rilian.',
-        price: 10.99,
-        imageUrl: 'https://example.com/lewis4.jpg',
-        stock: 80,
-      },
+    title: 'The Silver Chair',
+    author: 'C.S. Lewis',
+    category: 'Fantasy',
+    description: 'Eustace and Jill embark on a quest to rescue Prince Rilian.',
+    price: 10.99,
+    imageUrl: 'https://example.com/lewis4.jpg',
+    stock: 80,
+    salesCount:0
+  },
 ];
 
 

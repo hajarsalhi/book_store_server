@@ -4,7 +4,7 @@ import { auth } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.post('/validate', validateCoupon);
+router.post('/validate',auth, validateCoupon);
 router.post('/loyalty-discount', auth, calculateLoyaltyDiscount);
 
 export default router; 

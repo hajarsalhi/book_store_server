@@ -3,18 +3,37 @@ import User from '../models/user.js';
 
 export const validateCoupon = async (req, res) => {
   const { code } = req.body;
+  const userId = req.user.id;
 
   try {
     const coupon = await Coupon.findOne({ code });
+
     if (!coupon) {
       return res.status(404).json({ message: 'Coupon not found' });
     }
 
-    if (new Date() > coupon.expirationDate) {
+    if (coupon.expirationDate < new Date()) {
       return res.status(400).json({ message: 'Coupon has expired' });
     }
 
-    res.status(200).json({ discount: coupon.discount });
+    if (coupon.usageLimit && coupon.usedCount >= coupon.usageLimit) {
+      return res.status(401).json({ message: 'Coupon usage limit reached.' });
+    }
+
+    if (coupon.usedBy.includes(userId)) {
+      return res.status(403).json({ message: 'You have already used this coupon.' });
+    }
+    if(coupon.discountType === 'freeShipping'){
+      return res.status(201).json({ message: 'Free shipping applied!', discount: 0 });
+    }
+
+
+    // If all checks pass, you can proceed to apply the coupon
+    coupon.usedCount++;
+    coupon.usedBy.push(userId); // Record the user ID
+    await coupon.save(); // Save the updated coupon
+
+    res.status(200).json({ discount: coupon.discountValue });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }

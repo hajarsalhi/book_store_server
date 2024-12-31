@@ -87,8 +87,6 @@ export const getSalesAnalytics = async (req, res) => {
       });
     });
 
-    console.log("object :",Object.values(bookSales));
-
     const topSellingBooks = Object.values(bookSales)
       .sort((a, b) => b.salesCount - a.salesCount)
       .slice(0, 5);

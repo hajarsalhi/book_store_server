@@ -33,7 +33,7 @@ export const validateCoupon = async (req, res) => {
     coupon.usedBy.push(userId); // Record the user ID
     await coupon.save(); // Save the updated coupon
 
-    res.status(200).json({ discount: coupon.discountValue });
+    res.status(200).json({ discount: coupon.discountValue , couponType: coupon.discountType});
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }

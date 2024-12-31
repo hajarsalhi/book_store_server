@@ -24,9 +24,10 @@ export const getSalesAnalytics = async (req, res) => {
     const orders = await Command.find({
       ...dateFilter,
       status: 'completed'
-    }).populate('items.book');
+    });
 
-    console.log('Found orders:', orders);
+    await Command.populate(orders, { path: 'items.book' });
+
 
     // If no orders found, return empty data
     if (!orders || orders.length === 0) {
@@ -61,21 +62,32 @@ export const getSalesAnalytics = async (req, res) => {
 
     // Calculate top selling books
     const bookSales = {};
+
+    await Command.populate(orders, { path: 'items.book' }); 
     
     orders.forEach(order => {
-      order.items.filter(item=>!item.$isEmpty).forEach(item => {
+      order.items.forEach(item => {
       
-        if (!bookSales[item.book._id]) {
-          bookSales[item.book._id] = {
-            _id: item.book._id,
-            title: item.book.title,
+        const book = item.book;
+
+        if (!book) {
+          console.log('Book not found for item:', item);
+          return; // Skip if book is not found
+        }
+    
+        if (!bookSales[book._id]) {
+          bookSales[book._id] = {
+            _id: book._id,
+            title: book.title,
             salesCount: 0
           };
         }
-        
-        bookSales[item.book._id].salesCount += item.quantity;
+    
+        bookSales[book._id].salesCount += item.quantity;
       });
     });
+
+    console.log("object :",Object.values(bookSales));
 
     const topSellingBooks = Object.values(bookSales)
       .sort((a, b) => b.salesCount - a.salesCount)
@@ -84,9 +96,18 @@ export const getSalesAnalytics = async (req, res) => {
 
     // Calculate sales by category
     const categorySales = {};
+    await Command.populate(orders, { path: 'items.book' });
+
     orders.forEach(order => {
-      order.items.filter(item=>!item.$isEmpty).forEach(item => {
-        const category = item.book.category || 'Uncategorized';
+      order.items.forEach(item => {
+        const book = item.book;
+
+        if (!book) {
+          console.log('Book not found for item:', item);
+          return; // Skip if book is not found
+        }
+
+        const category = book.category || 'Uncategorized';
         if (!categorySales[category]) {
           categorySales[category] = { name: category, revenue: 0 };
         }

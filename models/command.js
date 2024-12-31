@@ -9,7 +9,7 @@ const commandSchema = new mongoose.Schema({
   items: [{
     book: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Book',
+      ref:'Book',
       required: true
     },
     quantity: {

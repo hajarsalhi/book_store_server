@@ -1,4 +1,3 @@
-import mongoose from 'mongoose';
 import Command from '../models/command.js';
 import Book from '../models/book.js';
 import User from '../models/user.js';
@@ -67,14 +66,30 @@ export const createCommand = async (req, res) => {
     });
 
     // Update sales count for each book
-    for (const item of items) {
-      await Book.findByIdAndUpdate(
-        item.bookId,
-        { $inc: { salesCount: 1 } },
-        { new: true }
-      );
-    }
-    
+    const bookSales = {};
+
+    await Command.populate(command, { path: 'items.book' });
+
+    command.items.forEach(item => {
+      const book = item.book;
+
+      if (!book) {
+        console.log('Book not found for item:', item);
+        return;
+      }
+
+      if (!bookSales[book._id]) {
+        bookSales[book._id] = {
+          _id: book._id,
+          title: book.title,
+          salesCount: 0
+        };
+      }
+
+      bookSales[book._id].salesCount += item.quantity;
+    });
+
+    console.log("object :", Object.values(bookSales));
 
     // Update stock for each book
     for (const item of items) {

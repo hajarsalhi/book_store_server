@@ -6,8 +6,10 @@ import bookRoutes from './routes/bookRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import commandRoutes from './routes/commandRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import bookPacksRouter from './routes/bookPacksRouter.js';
 import { errorHandler } from './middleware/errorhandler.js';
 import couponRoutes from './routes/couponRoutes.js';
+import { generateBookPacks } from './controllers/bookPackController.js';
 
 dotenv.config();
 
@@ -29,6 +31,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/commands', commandRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/coupons', couponRoutes);
+app.use('/api',bookPacksRouter);
 
 // Add a test endpoint
 app.get('/api/test', (req, res) => {
@@ -42,6 +45,7 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+app.listen(PORT, async() => {
   console.log(`Server running on port ${PORT}`);
+  await generateBookPacks();
 });

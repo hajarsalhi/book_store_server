@@ -79,6 +79,8 @@ export const getSalesAnalytics = async (req, res) => {
           bookSales[book._id] = {
             _id: book._id,
             title: book.title,
+            author: book.author,
+            price: book.price,
             salesCount: 0
           };
         }
@@ -107,9 +109,10 @@ export const getSalesAnalytics = async (req, res) => {
 
         const category = book.category || 'Uncategorized';
         if (!categorySales[category]) {
-          categorySales[category] = { name: category, revenue: 0 };
+          categorySales[category] = { name: category, revenue: 0, booksSold: 0 };
         }
         categorySales[category].revenue += item.price * item.quantity;
+        categorySales[category].booksSold += item.quantity;
       });
     });
 

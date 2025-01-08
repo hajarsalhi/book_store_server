@@ -1,6 +1,6 @@
 import express from 'express';
 import { adminAuth } from '../middleware/auth.js';
-import { getSalesAnalytics } from '../controllers/adminController.js';
+import { getSalesAnalytics,bulkUploadBooks } from '../controllers/adminController.js';
 
 const router = express.Router();
 
@@ -18,6 +18,11 @@ router.get('/test-auth', adminAuth, (req, res) => {
 
 // Analytics route
 router.get('/analytics/sales', adminAuth, getSalesAnalytics);
+
+router.post('/books/bulk-upload', 
+  adminAuth, 
+  bulkUploadBooks
+);
 
 console.log('Admin routes registered');
 

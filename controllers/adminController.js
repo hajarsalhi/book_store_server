@@ -1,4 +1,5 @@
 import Command from '../models/command.js';
+import Book from '../models/book.js';
 
 
 export const getSalesAnalytics = async (req, res) => {
@@ -139,3 +140,40 @@ export const getSalesAnalytics = async (req, res) => {
     });
   }
 }; 
+
+export const bulkUploadBooks = async (req, res) => {
+  try {
+    const books = req.body;
+
+    // Validate books data
+    if (!Array.isArray(books) || books.length === 0) {
+      return res.status(400).json({ message: 'Invalid books data' });
+    }
+
+    // Validate each book
+    const validatedBooks = books.map(book => ({
+      title: book.title,
+      author: book.author,
+      description: book.description || '',
+      price: parseFloat(book.price) || 0,
+      stock: parseInt(book.stock) || 0,
+      category: book.category,
+      isbn: book.isbn,
+      imageUrl: book.imageUrl
+    }));
+
+    // Insert books in bulk
+    const result = await Book.insertMany(validatedBooks, { ordered: false });
+
+    res.status(201).json({
+      message: `Successfully uploaded ${result.length} books`,
+      booksAdded: result.length
+    });
+  } catch (error) {
+    console.error('Bulk upload error:', error);
+    res.status(500).json({
+      message: 'Error uploading books',
+      error: error.message
+    });
+  }
+};

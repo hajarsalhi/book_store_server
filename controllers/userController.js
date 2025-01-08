@@ -100,3 +100,13 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getPurchasedBooks = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const purchasedBooks = await Book.find({ _id: { $in: user.purchasedBooks } });
+    res.json(purchasedBooks);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

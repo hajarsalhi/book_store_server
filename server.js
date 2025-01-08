@@ -7,6 +7,7 @@ import authRoutes from './routes/authRoutes.js';
 import commandRoutes from './routes/commandRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import bookPacksRouter from './routes/bookPacksRouter.js';
+import libraryRoutes from './routes/libraryRoutes.js';
 import { errorHandler } from './middleware/errorhandler.js';
 import couponRoutes from './routes/couponRoutes.js';
 import { generateBookPacks } from './controllers/bookPackController.js';
@@ -32,6 +33,7 @@ app.use('/api/commands', commandRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api',bookPacksRouter);
+app.use('/api/library',libraryRoutes);
 
 // Add a test endpoint
 app.get('/api/test', (req, res) => {

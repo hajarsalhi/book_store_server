@@ -40,11 +40,11 @@ export const validateCoupon = async (req, res) => {
 };
 
 export const calculLoyaltyDiscount = (totalPurchases) => {
-  if (totalPurchases >= 50) {
+  if (totalPurchases == 50) {
     return 20; // 20% discount for 50+ purchases
-  } else if (totalPurchases >= 30) {
+  } else if (totalPurchases == 30) {
     return 15; // 15% discount for 30-49 purchases
-  } else if (totalPurchases >= 10) {
+  } else if (totalPurchases == 10) {
     return 10; // 10% discount for 10-29 purchases
   }
   return 0; // No discount

@@ -11,6 +11,7 @@ import libraryRoutes from './routes/libraryRoutes.js';
 import { errorHandler } from './middleware/errorhandler.js';
 import couponRoutes from './routes/couponRoutes.js';
 import { generateBookPacks } from './controllers/bookPackController.js';
+import wishListRouter from './routes/wishListRouter.js';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/coupons', couponRoutes);
 app.use('/api',bookPacksRouter);
 app.use('/api/library',libraryRoutes);
+app.use('/api/wishlist',wishListRouter);
 
 // Add a test endpoint
 app.get('/api/test', (req, res) => {

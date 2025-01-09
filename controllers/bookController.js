@@ -203,15 +203,22 @@ export const getRelatedBooksWithAuthor = async (bookId) => {
       console.log('Book not found');
       return [];
     }
+
+    // Get distinct books by author
     const relatedBooks = await Book.find({
-      $and: [
-        { author: book.author },
-        { title: { $ne: book.title } }
-      ]
-    }).limit(3);
-    const uniqueRelatedBooks = Array.from(new Set(relatedBooks.map(b => b._id)))
-      .map(id => relatedBooks.find(b => b._id === id));
-    return uniqueRelatedBooks;
+      author: book.author,
+      _id: { $ne: book._id }
+    })
+    .limit(3)
+    .lean();
+
+    // Remove any duplicates using Set
+    const uniqueBooks = Array.from(
+      new Set(relatedBooks.map(book => book._id))
+    ).map(id => relatedBooks.find(book => book._id === id));
+
+    console.log('Unique related books by author:', uniqueBooks.length);
+    return uniqueBooks;
   } catch (error) {
     console.error('Error fetching related books:', error);
     return [];
@@ -225,18 +232,22 @@ export const getRelatedBooksWithCategory = async (bookId) => {
       console.log('Book not found');
       return [];
     }
+
+    // Get distinct books by category
     const relatedBooks = await Book.find({
-      $and: [
-        { category: book.category },
-        { title: { $ne: book.title } }
-      ]
-    }).limit(3);
+      category: book.category,
+      _id: { $ne: book._id }
+    })
+    .limit(3)
+    .lean();
 
-    const uniqueRelatedBooks = Array.from(new Set(relatedBooks.map(b => b._id)))
-      .map(id => relatedBooks.find(b => b._id === id));
+    // Remove any duplicates using Set
+    const uniqueBooks = Array.from(
+      new Set(relatedBooks.map(book => book._id))
+    ).map(id => relatedBooks.find(book => book._id === id));
 
-
-    return uniqueRelatedBooks;
+    console.log('Unique related books by category:', uniqueBooks.length);
+    return uniqueBooks;
   } catch (error) {
     console.error('Error fetching related books:', error);
     return [];

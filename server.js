@@ -16,9 +16,12 @@ import wishListRouter from './routes/wishListRouter.js';
 dotenv.config();
 
 const app = express();
-
+const frontendApiAddress = "https://book-store-mlb4.onrender.com";
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: frontendApiAddress,
+  credentials: true
+}));
 app.use(express.json());
 
 // Connect to MongoDB

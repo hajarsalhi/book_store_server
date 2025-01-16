@@ -18,7 +18,15 @@ dotenv.config();
 const app = express();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'https://book-store-mlb4.onrender.com', // Add your frontend Render URL
+    'https://book-store-server-z514.onrender.com'    // Add your backend Render URL
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS']
+}));
 app.use(express.json());
 
 // Connect to MongoDB
@@ -48,6 +56,12 @@ console.log('Routes registered');
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
+
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = 'development';
+}
+
+console.log('Current environment:', process.env.NODE_ENV);
 
 app.listen(PORT, async() => {
   console.log(`Server running on port ${PORT}`);

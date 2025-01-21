@@ -13,7 +13,7 @@ export const createCommand = async (req, res) => {
   
   try {
 
-    let totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    let totalAmount = req.body.items.totalAmount;
     const orderItems = [];
 
     // First, validate all items and check stock
